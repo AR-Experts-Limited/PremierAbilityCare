@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premier Ability Care - Modern Care Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Swiper.js for testimonials -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7fafc;
+            color: #2d3748;
+        }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .primary-bg {
+            background-color: #025DB8;
+        }
+        .primary-text {
+            color: #025DB8;
+        }
+        .secondary-text {
+            color: #3182ce;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.4s ease;
+            color: #4a5568;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #025DB8;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #025DB8;
+            transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .nav-link.active::after,
+        .nav-link:hover::after {
+            width: 70%;
+        }
+        .page {
+            display: none;
+            animation: fadeIn 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-bg {
+            background-image: linear-gradient(to right, rgba(2, 93, 184, 0.6), rgba(2, 93, 184, 0.3)), url('https://images.unsplash.com/photo-1612536339399-53e5c5a8b4a9?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(2, 93, 184, 0.3);
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .main-content-wrapper {
+            max-width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 1024px) {
+            .main-content-wrapper {
+                max-width: 90%;
+            }
+        }
+        /* Swiper custom styles */
+        .testimonial-slider .swiper-slide {
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+        .testimonial-slider .swiper-pagination-bullet-active {
+            background-color: #025DB8 !important;
+        }
+        /* Sticky Enquire Button */
+        #enquire-now-button {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: bottom right;
+            z-index: 40;
+            padding: 1rem 1.5rem;
+            background-color: #025DB8;
+            color: white;
+            font-weight: 600;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+        }
+        #enquire-now-button:hover {
+            background-color: #024a94;
+        }
+        .policy-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .policy-content p {
+            margin-bottom: 1rem;
+            color: #4b5563;
+        }
+        .policy-content ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("FJly2FLpFN9sXSQ0g"); // Replace with your EmailJS Public Key
+  })();
+</script>
+
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50">
+        <!-- Top Bar -->
+        <div class="bg-white/80 backdrop-blur-sm shadow-sm">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-2">
+                    <a href="#home" onclick="navigate('home', event)" class="text-2xl font-bold primary-text">Premier Ability Care</a>
+                    <div class="hidden md:flex items-center space-x-6 text-sm text-gray-600">
+                        <a href="mailto:contact@acacialodge.com" class="hover:text-blue-600 transition-colors"><i class="fas fa-envelope mr-2"></i>admin@premierabilitycare.co.uk</a>
+                    </div>
+                    <button id="mobile-menu-button" class="md:hidden primary-text">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Main Navigation -->
+        <nav class="hidden md:flex justify-center py-2">
+            <div class="w-full max-w-2xl">
+                <div class="container mx-auto px-6 py-3 rounded-2xl shadow-lg glassmorphism">
+                    <div class="flex items-center justify-center space-x-10">
+                        <a href="#home" class="nav-link font-medium active" onclick="navigate('home', event)">Home</a>
+                        <a href="#services" class="nav-link font-medium" onclick="navigate('services', event)">Services</a>
+                        <a href="#contact" class="nav-link font-medium" onclick="navigate('contact', event)">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md shadow-xl overflow-hidden">
+            <a href="#home" class="block py-3 px-5 text-gray-700 hover:bg-gray-100" onclick="navigate('home', event)">Home</a>
+            <a href="#services" class="block py-3 px-5 text-gray-700 hover:bg-gray-100" onclick="navigate('services', event)">Services</a>
+            <a href="#contact" class="block py-3 px-5 text-gray-700 hover:bg-gray-100" onclick="navigate('contact', event)">Contact Us</a>
+            <div class="border-t border-gray-200 my-2"></div>
+            <a href="#privacy-policy" class="block py-3 px-5 text-sm text-gray-600 hover:bg-gray-100" onclick="navigate('privacy-policy', event)">Ethical Privacy Policy</a>
+            <a href="#cookie-policy" class="block py-3 px-5 text-sm text-gray-600 hover:bg-gray-100" onclick="navigate('cookie-policy', event)">Cookie Policy</a>
+            <a href="#terms-conditions" class="block py-3 px-5 text-sm text-gray-600 hover:bg-gray-100" onclick="navigate('terms-conditions', event)">Terms & Conditions</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <!-- Hero Section -->
+            <div class="hero-bg min-h-screen flex items-center justify-center pt-24">
+                <div class="text-center text-white p-8 rounded-xl max-w-4xl mx-4">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 reveal">Welcome to Premier Ability Care</h1>
+                    <p class="text-lg md:text-xl mb-8 reveal" style="transition-delay: 200ms;">Empowering Independence. Enhancing Quality of Life.</p>
+                    <a href="#contact" onclick="navigate('contact', event)" class="btn primary-bg text-white font-bold py-3 px-8 rounded-full text-lg reveal" style="transition-delay: 400ms;">Book a Enquiry</a>
+                </div>
+            </div>
+            
+            <div class="py-24 bg-white">
+                <div class="main-content-wrapper">
+                    <!-- Welcome Section -->
+                    <div class="grid md:grid-cols-2 gap-16 items-center reveal">
+                        <div>
+                            <h2 class="text-3xl font-bold primary-text mb-4">Compassionate Support for Every Ability and Age</h2>
+                            <p class="text-gray-600 leading-relaxed mb-6">At Premier Ability Care, we specialise in delivering compassionate, person-centred care for individuals of all abilities and ages—including elderly residents, individuals with disabilities, and those with complex needs. Based in the UK, our mission is to create safe, respectful environments where everyone is treated with dignity, empathy, and care.</p>
+                        </div>
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1547425260-76bc4d4b3c4a?q=80&w=2070&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://plus.unsplash.com/premium_photo-1663054345141-43f0ace930bb?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';" alt="Happy senior residents" class="rounded-xl shadow-lg w-full h-auto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Core Values Section -->
+            <div class="py-24">
+                <div class="main-content-wrapper text-center">
+                    <h2 class="text-3xl font-bold primary-text mb-16 reveal">Our Unwavering Commitment</h2>
+                    <div class="grid md:grid-cols-3 gap-12">
+                        <div class="reveal">
+                            <div class="p-6 bg-white rounded-full inline-block shadow-lg mb-5 border-4 border-blue-100"><i class="fas fa-heart-pulse fa-3x primary-text"></i></div>
+                            <h3 class="text-xl font-semibold mb-2">Compassionate Care</h3>
+                            <p class="text-gray-600">Delivering care with kindness, empathy, and a deep respect for every individual's life journey.</p>
+                        </div>
+                        <div class="reveal" style="transition-delay: 200ms;">
+                            <div class="p-6 bg-white rounded-full inline-block shadow-lg mb-5 border-4 border-blue-100"><i class="fas fa-shield-alt fa-3x primary-text"></i></div>
+                            <h3 class="text-xl font-semibold mb-2">Uncompromising Safety</h3>
+                            <p class="text-gray-600">A secure, modern, and supportive environment where residents and their families feel complete peace of mind.</p>
+                        </div>
+                        <div class="reveal" style="transition-delay: 400ms;">
+                            <div class="p-6 bg-white rounded-full inline-block shadow-lg mb-5 border-4 border-blue-100"><i class="fas fa-users-line fa-3x primary-text"></i></div>
+                            <h3 class="text-xl font-semibold mb-2">Vibrant Community</h3>
+                            <p class="text-gray-600">Fostering meaningful connections, lasting friendships, and a true sense of belonging for everyone.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Life at Premier Ability Care Gallery -->
+            <div class="py-24 bg-white">
+                <div class="main-content-wrapper text-center">
+                    <h2 class="text-3xl font-bold primary-text mb-4 reveal">Life at Premier Ability Care</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto mb-12 reveal">Experience compassionate care, joyful moments, and a sense of true belonging.</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
+                        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop" class="rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 h-64 w-full object-cover">
+                        <img src="https://plus.unsplash.com/premium_photo-1664475811964-75af7d90ee4b?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2FyZSUyMGhvbWV8ZW58MHx8MHx8fDA%3D" class="rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 h-64 w-full object-cover">
+                        <img src="https://plus.unsplash.com/premium_photo-1661422278122-f75d0c7b655b?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2FyZSUyMGhvbWV8ZW58MHx8MHx8fDA%3D" class="rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 h-64 w-full object-cover">
+                        <img src="https://plus.unsplash.com/premium_photo-1661427541609-b857cb7b7a7b?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fGNhcmUlMjBob21lfGVufDB8fDB8fHww" class="rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 h-64 w-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Services Page -->
+        <section id="services" class="page min-h-screen pt-40 pb-24 bg-white">
+             <div class="main-content-wrapper">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-4xl font-bold primary-text">Our Comprehensive Services</h2>
+                    <p class="text-gray-600 mt-2">We provide a full spectrum of care services tailored to each person's needs—whether you need occasional help, live-in support, or long-term specialist care.</p>
+                </div>
+                <!-- Service List -->
+                <div class="space-y-12">
+                    <!-- Service Item 1 -->
+                    <div class="grid md:grid-cols-3 gap-8 items-center reveal">
+                        <div class="md:col-span-1">
+                            <img src="https://plus.unsplash.com/premium_photo-1721296251780-51cbf620c505?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzd8fGNhcmUlMjBob21lfGVufDB8fDB8fHww" class="rounded-lg shadow-md w-full h-full object-cover">
+                        </div>
+                        <div class="md:col-span-2">
+                             <h3 class="text-2xl font-semibold primary-text mb-3">Residential Care</h3>
+                             <p class="text-gray-600 leading-relaxed">For those who need support with daily living, our residential care provides a perfect balance of independence and assistance. Residents enjoy beautifully appointed rooms, delicious meals, a full calendar of activities, and the security of 24/7 support from our caring team.</p>
+                        </div>
+                    </div>
+                     <!-- Service Item 2 -->
+                    <div class="grid md:grid-cols-3 gap-8 items-center reveal">
+                        <div class="md:col-span-2">
+                             <h3 class="text-2xl font-semibold primary-text mb-3">Specialized Dementia Care</h3>
+                             <p class="text-gray-600 leading-relaxed">Our dedicated memory care neighborhood provides a safe, secure, and soothing environment for individuals living with Alzheimer's or other forms of dementia. Our staff are specially trained in the latest dementia care techniques, focusing on enhancing quality of life through sensory activities and familiar routines.</p>
+                        </div>
+                        <div class="md:col-span-1">
+                            <img src="https://plus.unsplash.com/premium_photo-1683134308025-ec5478c4aa6d?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="rounded-lg shadow-md w-full h-full object-cover">
+                        </div>
+                    </div>
+                     <!-- Service Item 3 -->
+                    <div class="grid md:grid-cols-3 gap-8 items-center reveal">
+                        <div class="md:col-span-1">
+                            <img src="https://plus.unsplash.com/premium_photo-1664476958156-367e84136f26?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fGNhcmUlMjBob21lfGVufDB8fDB8fHww" class="rounded-lg shadow-md w-full h-full object-cover">
+                        </div>
+                        <div class="md:col-span-2">
+                             <h3 class="text-2xl font-semibold primary-text mb-3">Respite & Short-Term Stays</h3>
+                             <p class="text-gray-600 leading-relaxed">Whether you're a caregiver in need of a break or recovering from a hospital stay, our respite care services offer a welcoming home-away-from-home. Guests enjoy all the same amenities and care as our long-term residents, ensuring peace of mind for everyone.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Us Page -->
+        <section id="contact" class="page min-h-screen pt-40 pb-24">
+            <div class="main-content-wrapper">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-4xl font-bold primary-text">Get in Touch</h2>
+                    <p class="text-gray-600 mt-2">We'd love to hear from you. Let's arrange a visit or answer your questions.</p>
+                </div>
+                <!-- Form and Details -->
+                <div class="grid md:grid-cols-5 gap-12">
+                    <div class="md:col-span-3 bg-white p-8 rounded-2xl shadow-lg reveal">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Send Us a Message</h3>
+                        <form id="contact-form">
+                            <div class="mb-5">
+                                <label for="name" class="block text-gray-700 mb-2 font-medium">Name</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+                            </div>
+                            <div class="mb-5">
+                                <label for="email" class="block text-gray-700 mb-2 font-medium">Email</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+                            </div>
+                            <div class="mb-5">
+                                <label for="message" class="block text-gray-700 mb-2 font-medium">Message</label>
+                                <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"></textarea>
+                            </div>
+                            <button type="submit" class="w-full btn primary-bg text-white font-bold py-3 px-6 rounded-full text-lg">Send Message</button>
+                        </form>
+                    </div>
+                    <div class="md:col-span-2 space-y-8 reveal" style="transition-delay: 200ms;">
+                         <div class="bg-white p-8 rounded-2xl shadow-lg">
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Contact Details</h3>
+                            <p class="text-gray-600 mb-2 flex items-start"><i class="fas fa-map-marker-alt w-5 text-center mr-3 mt-1 primary-text"></i><span>Centenary House, 1 Centenary Way, Salford, England, M50 1RF</span></p>
+                            <p class="text-gray-600 flex items-center"><i class="fas fa-envelope w-5 text-center mr-3 primary-text"></i><span>admin@premierabilitycare.co.uk</span></p>
+                         </div>
+                         <div class="bg-white p-8 rounded-2xl shadow-lg h-64">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2371.166388173842!2d-2.3292496!3d53.4816337!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487baf78a932c1f5%3A0xe94823cf09880b38!2sCentenary%20House%2C%201%20Centenary%20Way%2C%20Salford%20M50%201RF%2C%20UK!5e0!3m2!1sen!2suk!4v1720368000000!5m2!1sen!2suk"
+                                width="100%"
+                                height="100%"
+                                class="w-full h-full rounded-lg border-0"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy Policy Page -->
+        <section id="privacy-policy" class="page min-h-screen pt-40 pb-24">
+            <div class="main-content-wrapper">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-4xl font-bold primary-text">Ethical Privacy Policy</h2>
+                    <p class="text-gray-600 mt-2">Last updated: July 7, 2025</p>
+                </div>
+                <div class="bg-white p-8 sm:p-12 rounded-2xl shadow-lg reveal policy-content">
+  <p>Premier Ability Care is a UK-based care organisation dedicated to delivering compassionate, person-centred support for individuals of all ages and abilities, including elderly residents and individuals with complex physical or mental health needs. Our mission is to create safe, supportive, and respectful environments where every person is treated with dignity, kindness, and the care they truly deserve.</p>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-4">Background and Rationale</h3>
+  <p>With a growing ageing population in the UK and an increasing prevalence of dementia among those aged 65 and over, there is a significant need for high-quality, ethical, and personalised dementia care services. Individuals living with dementia often face memory loss, confusion, and reduced independence, which creates unique safeguarding and wellbeing concerns.</p>
+  <p>Premier Ability Care aims to meet these needs through regulated, flexible services delivered by trained professionals, focused on preserving independence and enhancing quality of life.</p>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-4">Aim and Objectives</h3>
+  <p>The primary aim of this service is to provide high-quality, ethical, person-centred care for individuals aged 65 and over who have been diagnosed with dementia or Alzheimer’s disease.</p>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li>To deliver personalised care plans that respect life history, preferences, and cultural values</li>
+    <li>To promote and maintain independence for as long as possible</li>
+    <li>To enhance quality of life through engagement, companionship, and emotional support</li>
+    <li>To ensure safety and physical wellbeing through tailored support</li>
+    <li>To support family carers through respite and professional guidance</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-4">Target Participant Group</h3>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li>Individuals aged 65 and over</li>
+    <li>Diagnosed with dementia or Alzheimer’s disease</li>
+    <li>Living in community, supported living, or requiring live-in care</li>
+    <li>May have additional physical, sensory, or mental health needs</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-4">Description of Services Provided</h3>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li><strong>Personal Care & Daily Living Support:</strong> Respectful assistance with hygiene, dressing, eating, and other daily needs</li>
+    <li><strong>Medication Assistance:</strong> Safe support with reminders and administration under care plans</li>
+    <li><strong>Companionship & Social Engagement:</strong> Stimulating activities, conversation, and emotional support</li>
+    <li><strong>Mobility & Safety Support:</strong> Safe movement, fall prevention, and aid usage</li>
+    <li><strong>Specialist Dementia Care:</strong> Person-centred techniques such as:
+      <ul class="list-disc ml-5">
+        <li>Compassionate communication</li>
+        <li>Routines tailored to habits</li>
+        <li>Behavioural support</li>
+        <li>Life story work</li>
+      </ul>
+    </li>
+    <li><strong>End-of-Life (Palliative) Care:</strong> Comfort-focused support for individuals and families</li>
+    <li><strong>Additional Services:</strong> Live-in care, respite care, and supported living arrangements</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-4">Ethical Principles and Safeguards</h3>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li><strong>Respect for Autonomy and Dignity:</strong> Choice-led care; best interest decisions where capacity is lacking</li>
+    <li><strong>Confidentiality and Data Protection:</strong> GDPR-compliant, secure record-keeping, limited access to care professionals only</li>
+    <li><strong>Safety and Safeguarding:</strong> Trained staff, safeguarding policies, and responsive procedures</li>
+    <li><strong>Person-Centred Care:</strong> Individually developed plans, compassionate staff approach, regular reviews</li>
+    <li><strong>Equality and Non-Discrimination:</strong> Inclusive care respectful of cultural, religious, and individual differences</li>
+    <li><strong>Minimisation of Harm:</strong> Calm handling of distress, use of dementia-friendly environments</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-4">Consent Process</h3>
+  <p>We obtain informed consent where individuals have capacity. For those lacking capacity, we follow the Mental Capacity Act 2005, involving families or advocates as appropriate. Information is always provided in accessible formats to aid understanding.</p>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-4">Staff Qualifications and Training</h3>
+  <p>All staff are trained and regularly assessed in:</p>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li>Dementia awareness and communication</li>
+    <li>Managing behaviours that challenge</li>
+    <li>Safeguarding and adult protection</li>
+    <li>Medication handling</li>
+    <li>Infection control</li>
+    <li>Person-centred care delivery</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-4">Risk Management</h3>
+  <p>Potential risks include emotional distress, falls, and confusion. We manage these through:</p>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li>Tailored risk assessments</li>
+    <li>Familiar care staff assignments</li>
+    <li>De-escalation and communication techniques</li>
+    <li>Environmental safety modifications</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-4">Quality Assurance</h3>
+  <p>We are fully regulated by the Care Quality Commission (CQC). Quality is maintained through:</p>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li>Ongoing audits of care delivery</li>
+    <li>Feedback systems for clients and families</li>
+    <li>Continuous improvement processes</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mt-8 mb-4">Organisational Values</h3>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li><strong>Dignity First:</strong> Respecting privacy, choices, and individuality</li>
+    <li><strong>Compassion Always:</strong> Delivering care with kindness and patience</li>
+    <li><strong>Tailored Support:</strong> Recognising and planning for unique personal needs</li>
+  </ul>
+  <p>This Ethical Policy is designed to uphold the highest standards of dignity, professionalism, and respect for human rights—supporting individuals with dementia to lead fulfilling and meaningful lives.</p>
+</div>
+            </div>
+        </section>
+
+        <!-- Cookie Policy Page -->
+        <section id="cookie-policy" class="page min-h-screen pt-40 pb-24">
+            <div class="main-content-wrapper">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-4xl font-bold primary-text">Cookie Policy</h2>
+                    <p class="text-gray-600 mt-2">Last updated: July 7, 2025</p>
+                </div>
+                <div class="bg-white p-8 sm:p-12 rounded-2xl shadow-lg reveal policy-content">
+  <h3 class="text-2xl font-semibold mb-4">What Are Cookies</h3>
+  <p class="mb-6">As is common practice with almost all professional websites, this site uses cookies—tiny files downloaded to your device—to improve your experience. This section explains what information they gather, how we use them, and why they are sometimes stored.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">How We Use Cookies</h3>
+  <p class="mb-6">We use cookies to ensure proper website functionality, enhance user experience, and analyse traffic. These include:</p>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li>Essential cookies for site operation</li>
+    <li>Analytical cookies to understand visitor interactions</li>
+    <li>Functionality cookies to remember user preferences</li>
+  </ul>
+  <p class="mb-6">We do not use cookies to collect sensitive personal information without your explicit consent. Where required, we will ask for your permission before using non-essential cookies.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Disabling Cookies</h3>
+  <p class="mb-6">You can disable cookies by adjusting your browser settings. However, doing so may impact website functionality. Some features may not work correctly if cookies are turned off.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Data We Collect</h3>
+  <p class="mb-6">We may collect the following information:</p>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li><strong>Personal Information:</strong> Name, contact details, health-related info (if you enquire)</li>
+    <li><strong>Technical Data:</strong> IP address, browser type, device info, pages visited</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mb-4">How We Use Your Information</h3>
+  <p class="mb-6">Your personal data may be used to:</p>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li>Respond to service enquiries</li>
+    <li>Provide and manage care services</li>
+    <li>Improve our website and services</li>
+    <li>Comply with legal and regulatory requirements</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mb-4">Lawful Basis for Processing</h3>
+  <p class="mb-6">We only process data where we have a lawful basis under UK GDPR, including consent, contractual necessity, legal obligations, and legitimate interests.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Sharing Your Data</h3>
+  <p class="mb-6">We only share your personal data with:</p>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li>Staff or contractors providing services</li>
+    <li>Regulatory bodies (when legally required)</li>
+    <li>Trusted IT or website service providers</li>
+  </ul>
+  <p class="mb-6">We never sell your personal data.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">International Transfers</h3>
+  <p class="mb-6">Most of your data is stored in the UK. If transferred abroad, we ensure appropriate safeguards like Standard Contractual Clauses are in place.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Data Retention</h3>
+  <p class="mb-6">We retain data only as long as necessary for the purposes described and to meet legal requirements. Specific retention periods vary depending on the nature of the data.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Your Rights</h3>
+  <p class="mb-6">Under UK data protection laws, you have the right to:</p>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li>Access your personal data</li>
+    <li>Correct inaccuracies</li>
+    <li>Request deletion (where applicable)</li>
+    <li>Restrict or object to processing</li>
+    <li>Request data portability</li>
+    <li>Complain to the Information Commissioner’s Office (ICO)</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mb-4">Policy Updates</h3>
+  <p>We may update this policy occasionally. All changes will be published on this page with the latest revision date.</p>
+</div>
+
+            </div>
+        </section>
+
+        <!-- Terms and Conditions Page -->
+        <section id="terms-conditions" class="page min-h-screen pt-40 pb-24">
+            <div class="main-content-wrapper">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-4xl font-bold primary-text">Terms and Conditions</h2>
+                    <p class="text-gray-600 mt-2">Last updated: July 7, 2025</p>
+                </div>
+                <div class="bg-white p-8 sm:p-12 rounded-2xl shadow-lg reveal policy-content">
+  <h3 class="text-2xl font-semibold mb-4">Agreement to Terms</h3>
+  <p class="mb-6">By accessing this website, you are agreeing to be bound by these website Terms and Conditions of Use, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Use License</h3>
+  <p class="mb-4">Permission is granted to temporarily download one copy of the materials (information or software) on Premier Ability Care's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
+  <ul class="list-disc list-inside mb-6 text-gray-700">
+    <li>Modify or copy the materials</li>
+    <li>Use the materials for any commercial purpose or public display (commercial or non-commercial)</li>
+    <li>Attempt to decompile or reverse engineer any software contained on the website</li>
+    <li>Remove any copyright or proprietary notations from the materials</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mb-4">Disclaimer</h3>
+  <p class="mb-6">The materials on Premier Ability Care's website are provided on an 'as is' basis. Premier Ability Care makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Limitation of Liability</h3>
+  <p class="mb-6">In no event shall Premier Ability Care or its suppliers be liable for any damages (including, without limitation, damages for loss of data, profit, or business interruption) arising out of the use or inability to use the materials on the website, even if Premier Ability Care or an authorised representative has been notified orally or in writing of the possibility of such damage.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Accuracy of Materials</h3>
+  <p class="mb-6">The materials appearing on Premier Ability Care's website may include technical, typographical, or photographic errors. Premier Ability Care does not warrant that any of the materials are accurate, complete, or current. We may make changes to the materials at any time without notice, but do not commit to updating them regularly.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Governing Law</h3>
+  <p class="mb-6">These terms and conditions are governed by and construed in accordance with the laws of England and Wales, and you irrevocably submit to the exclusive jurisdiction of the courts in that location.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Changes to Terms</h3>
+  <p class="mb-6">Premier Ability Care may revise these terms of use for its website at any time without notice. By continuing to use this website, you agree to be bound by the then-current version of these Terms and Conditions.</p>
+
+  <h3 class="text-2xl font-semibold mb-4">Severability Clause</h3>
+  <p>If any provision of these Terms and Conditions is found to be invalid or unenforceable under applicable law, such provision shall be modified to the minimum extent necessary to make it enforceable or, if that is not possible, removed entirely. The remaining provisions will continue to apply in full force and effect.</p>
+</div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Sticky Enquire Button -->
+    <a href="#contact" onclick="navigate('contact', event)" id="enquire-now-button">Enquire Now</a>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="md:col-span-2">
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
+                        <div>
+                            <h5 class="font-bold mb-3">Navigate</h5>
+                            <ul>
+                                <li class="mb-2"><a href="#home" onclick="navigate('home', event)" class="text-gray-400 hover:text-white transition">Home</a></li>
+                                <li class="mb-2"><a href="#services" onclick="navigate('services', event)" class="text-gray-400 hover:text-white transition">Services</a></li>
+                                <li class="mb-2"><a href="#contact" onclick="navigate('contact', event)" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-bold mb-3">Legal</h5>
+                            <ul>
+                                <li class="mb-2"><a href="#privacy-policy" onclick="navigate('privacy-policy', event)" class="text-gray-400 hover:text-white transition">Ethical Privacy Policy</a></li>
+                                <li class="mb-2"><a href="#cookie-policy" onclick="navigate('cookie-policy', event)" class="text-gray-400 hover:text-white transition">Cookie Policy</a></li>
+                                <li class="mb-2"><a href="#terms-conditions" onclick="navigate('terms-conditions', event)" class="text-gray-400 hover:text-white transition">Terms & Conditions</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div>
+    <h4 class="text-lg font-semibold mb-4">Premier Ability Care</h4>
+    <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+        Providing exceptional care with warmth, compassion, and expertise in the heart of Manchester.
+    </p>
+    <p class="text-gray-400 text-sm">
+        <i class="fas fa-map-marker-alt w-5 mr-2"></i>
+        Centenary House, 1 Centenary Way, Salford, England, M50 1RF
+    </p>
+    <p class="text-gray-400 text-sm mt-2">
+        <i class="fas fa-envelope w-5 mr-2"></i>
+        <a href="mailto:admin@premierabilitycare.co.uk" class="hover:text-white transition">admin@premierabilitycare.co.uk</a>
+    </p>
+</div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Premier Ability Care. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-10 right-10 bg-green-500 text-white py-3 px-6 rounded-lg shadow-xl translate-x-[150%] transition-transform duration-500">
+        Message sent successfully!
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 p-4 z-[60] transition-transform duration-500 translate-y-full">
+        <div class="container mx-auto max-w-4xl">
+            <div class="glassmorphism rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+                <p class="text-sm text-gray-800">We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies. <a href="#cookie-policy" onclick="navigate('cookie-policy', event)" class="font-semibold underline secondary-text">Learn more</a>.</p>
+                <button id="accept-cookies" class="btn primary-bg text-white font-bold py-2 px-6 rounded-full whitespace-nowrap">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Navigation Logic ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function navigate(pageId, event) {
+            if(event) event.preventDefault();
+            
+            pages.forEach(page => page.classList.remove('active'));
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === `#${pageId}`);
+            });
+            
+            mobileMenu.classList.add('hidden');
+            window.scrollTo(0, 0);
+            
+            // Re-initialize animations for the new page
+            document.querySelectorAll('.reveal').forEach(el => {
+                el.classList.remove('visible');
+            });
+            revealElements();
+        }
+
+        // --- Mobile Menu Toggle ---
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        // --- Scroll Reveal Animation ---
+        const revealElements = () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+        };
+        
+        // --- Form Submission with Toast ---
+        document.getElementById('contact-form')?.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const toast = document.getElementById('toast');
+  const button = this.querySelector('button[type="submit"]');
+  button.disabled = true;
+  button.textContent = "Sending...";
+
+  emailjs.sendForm('service_yuwyr9n', 'template_amdx15z', this)
+    .then(() => {
+      toast.style.transform = 'translateX(0)';
+      setTimeout(() => {
+        toast.style.transform = 'translateX(150%)';
+      }, 3000);
+      this.reset();
+      button.disabled = false;
+      button.textContent = "Send Message";
+    }, (error) => {
+      alert('❌ Failed to send message. Please try again.');
+      console.error('EmailJS error:', error);
+      button.disabled = false;
+      button.textContent = "Send Message";
+    });
+});
+
+        // --- Swiper Initialization for Testimonials ---
+        const swiper = new Swiper('.testimonial-slider', {
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            slidesPerView: 1,
+            spaceBetween: 30,
+        });
+
+        // --- Cookie Banner Logic ---
+        const cookieBanner = document.getElementById('cookie-banner');
+        const acceptCookiesBtn = document.getElementById('accept-cookies');
+
+        if (!localStorage.getItem('cookieConsent')) {
+            setTimeout(() => {
+                cookieBanner.style.transform = 'translateY(0)';
+            }, 2500); // Delay to show after page load animation
+        }
+
+        acceptCookiesBtn.addEventListener('click', () => {
+            localStorage.setItem('cookieConsent', 'true');
+            cookieBanner.style.transform = 'translateY(100%)';
+        });
+
+
+        // --- Initial Load ---
+        window.addEventListener('DOMContentLoaded', () => {
+            navigate('home');
+        });
+    </script>
+</body>
+</html>
